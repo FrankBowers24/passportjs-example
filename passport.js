@@ -32,6 +32,7 @@ module.exports = function(passport) {
 		consumerSecret	: config.twitter.secret,
 		callbackURL		 : '/auth/twitter/callback'
 	}, function(accessToken, refreshToken, profile, done) {
+		console.log('twitter profile: ', JSON.stringify(profile, null, '\t'));
 		// Busca en la base de datos si el usuario ya se autenticó en otro
 		// momento y ya está almacenado en ella
 		User.findOne({provider_id: profile.id}, function(err, user) {
@@ -55,11 +56,12 @@ module.exports = function(passport) {
 	}));
 
 	// Configuración del autenticado con Facebook
+	/*
 	passport.use(new FacebookStrategy({
 		clientID			: config.facebook.key,
 		clientSecret	: config.facebook.secret,
 		callbackURL	 : '/auth/facebook/callback',
-		profileFields : ['id', 'displayName', /*'provider',*/ 'photos']
+		profileFields : ['id', 'displayName', 'photos']
 	}, function(accessToken, refreshToken, profile, done) {
 		// El campo 'profileFields' nos permite que los campos que almacenamos
 		// se llamen igual tanto para si el usuario se autentica por Twitter o
@@ -84,5 +86,5 @@ module.exports = function(passport) {
 			});
 		});
 	}));
-
+*/
 };
