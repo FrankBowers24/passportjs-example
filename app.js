@@ -7,6 +7,12 @@ var path = require('path');
 
 var mongoose = require('mongoose'); // Mongoose: Libreria para conectar con MongoDB
 var passport = require('passport'); // Passport: Middleware de Node que facilita la autenticación de usuarios
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var session = require('express-session');
+var methodOverride = require('method-override');
+var errorHandler = require('errorhandler');
 
 // Importamos el modelo usuario y la configuración de passport
 require('./models/user');
@@ -25,32 +31,38 @@ var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
+// app.use(express.favicon());
+// app.use(express.logger('dev'));
 
 // Middlewares de Express que nos permiten enrutar y poder
 // realizar peticiones HTTP (GET, POST, PUT, DELETE)
-app.use(express.cookieParser());
-app.use(express.urlencoded());
-app.use(express.json());
-app.use(express.methodOverride());
+// app.use(express.cookieParser());
+// app.use(express.urlencoded());
+// app.use(express.json());
+// app.use(express.methodOverride());
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser('add a sign here'));
+app.use(methodOverride());
 
 // Ruta de los archivos estáticos (HTML estáticos, JS, CSS,...)
 app.use(express.static(path.join(__dirname, 'public')));
 // Indicamos que use sesiones, para almacenar el objeto usuario
 // y que lo recuerde aunque abandonemos la página
-app.use(express.session({ secret: 'lollllo' }));
+app.use(session({ secret: 'lollllo' }));
 
 // Configuración de Passport. Lo inicializamos
 // y le indicamos que Passport maneje la Sesión
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(app.router);
+app.use(express.Router());
 
 // Si estoy en local, le indicamos que maneje los errores
 // y nos muestre un log más detallado
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+  app.use(errorHandler());
 }
 
 /* Rutas de la aplicación */

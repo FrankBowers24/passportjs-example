@@ -7,7 +7,7 @@ exports.index = function(req, res){
     // Enviamos como variables un título
     // y objeto 'user' que contiene toda
     // la información del usuario y viaja en el 'request'
-    title: 'Ejemplo de Passport JS',
+    title: 'Passport JS Example',
     user: req.user
   });
 };

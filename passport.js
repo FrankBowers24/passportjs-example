@@ -32,7 +32,7 @@ module.exports = function(passport) {
 		consumerSecret	: config.twitter.secret,
 		callbackURL		 : '/auth/twitter/callback'
 	}, function(accessToken, refreshToken, profile, done) {
-		console.log('twitter profile: ', JSON.stringify(profile, null, '\t'));
+		//console.log('twitter profile: ', JSON.stringify(profile, null, '\t'));
 		// Busca en la base de datos si el usuario ya se autenticó en otro
 		// momento y ya está almacenado en ella
 		User.findOne({provider_id: profile.id}, function(err, user) {
