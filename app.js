@@ -90,6 +90,10 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter',
 app.get('/auth/facebook/callback', passport.authenticate('facebook',
   { successRedirect: '/', failureRedirect: '/login' }
 ));
+app.get('/api/test', function(req, res) {
+	console.log('api/test session: ', req.session, 'request user: ', req.user);
+	res.send('api/test get received');
+})
 
 // Inicio del servidor
 app.listen(app.get('port'), function(){
